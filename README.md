@@ -22,6 +22,8 @@ passe de test, inclut dans PostgreSQL.
 
 ## Installation
 
+Git clone https://github.com/Miky-94/coworkia.git et se mettre dans le dossier coworkia depuis un terminal
+
 ### Démarrer PostgreSQL
 
 Vérifier d'abord si le serveur tourne déjà :
@@ -43,7 +45,7 @@ Le serveur doit tourner avant de créer la base et avant de lancer l'API.
 
 ### 1. Base de données
 
-Lancer les scripts dans un terminal :
+Lancer les scripts dans un terminal depuis le dossier coworkia :
 
 ```
 createdb -U postgres -h localhost coworkia
@@ -60,6 +62,8 @@ cd backend
 export DB_PASSWORD='votre_mot_de_passe_postgres'
 ./mvnw spring-boot:run
 ```
+
+Ouvrir un autre onglet dans le terminal depuis le dossier coworkia :
 
 ### 3. Front (port 4200)
 
