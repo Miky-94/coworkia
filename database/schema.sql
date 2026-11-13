@@ -1,0 +1,41 @@
+CREATE TABLE site (
+  id BIGSERIAL PRIMARY KEY,
+  nom VARCHAR(100) NOT NULL,
+  ville VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE zone (
+  id BIGSERIAL PRIMARY KEY,
+  site_id BIGINT NOT NULL REFERENCES site(id),
+  code VARCHAR(2) NOT NULL UNIQUE,
+  nom VARCHAR(50) NOT NULL,
+  capacite INT NOT NULL CHECK (capacite > 0)
+);
+
+CREATE TABLE poste (
+  id BIGSERIAL PRIMARY KEY,
+  zone_id BIGINT NOT NULL REFERENCES zone(id),
+  numero VARCHAR(10) NOT NULL UNIQUE,
+  actif BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE app_user (
+  id BIGSERIAL PRIMARY KEY,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  mot_de_passe VARCHAR(100) NOT NULL,
+  nom VARCHAR(100) NOT NULL,
+  role VARCHAR(20) NOT NULL CHECK (role IN ('MEMBRE', 'ADMIN'))
+);
+
+CREATE TABLE reservation (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES app_user(id),
+  poste_id BIGINT NOT NULL REFERENCES poste(id),
+  debut TIMESTAMP NOT NULL,
+  fin TIMESTAMP NOT NULL,
+  statut VARCHAR(20) NOT NULL CHECK (statut IN ('CONFIRMEE', 'ANNULEE')),
+  CHECK (fin > debut)
+);
+
+CREATE INDEX idx_reservation_poste_dates
+  ON reservation (poste_id, debut, fin);
